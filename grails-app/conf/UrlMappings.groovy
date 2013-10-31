@@ -1,13 +1,13 @@
+import com.pitchstone.plugin.permit.NotPermittedException
+
 class UrlMappings {
-
 	static mappings = {
-		"/$controller/$action?/$id?"{
-			constraints {
-				// apply constraints here
-			}
-		}
-
-		"/"(view:"/index")
-		"500"(view:'/error')
+        '500' controller: 'testError', action: 'notPermitted',
+            exception: NotPermittedException
+		'500' view: '/error'
+        '/' controller: 'testPublic'
+        '/management' controller: 'testManagement', action: 'index'
+        "/management/$action?" controller: 'testManagement'
+        "/resource/$type/$action/$id?" controller: 'testResource'
 	}
 }
