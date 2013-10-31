@@ -73,6 +73,7 @@ class BasicSessionlessPermitCheckingService {
         def expr = actions[action] ?: actions.DEFAULT
         if (!expr) return
 
+        log.info "check '$expr' for $controller/$action"
         failUnless expr, context
     }
 
@@ -92,9 +93,18 @@ class BasicSessionlessPermitCheckingService {
             if (controllerPolicy)
                 actions.DEFAULT = controllerPolicy
 
+            // closure actions
             controller.clazz.declaredFields.findAll { field ->
                 !(field.name ==~ /class|metaClass|\$.*/)
             }.each { field ->
+                def policy = getPolicy(field)
+                // skip if empty or same as controller to keep map smaller
+                if (policy && policy != controllerPolicy)
+                    actions[field.name] = policy
+            }
+
+            // method actions
+            controller.clazz.declaredMethods.each { field ->
                 def policy = getPolicy(field)
                 // skip if empty or same as controller to keep map smaller
                 if (policy && policy != controllerPolicy)
