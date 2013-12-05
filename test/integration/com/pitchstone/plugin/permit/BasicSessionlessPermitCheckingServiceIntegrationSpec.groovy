@@ -1,8 +1,8 @@
 package com.pitchstone.plugin.permit
 
-import grails.plugin.spock.IntegrationSpec
+import spock.lang.Specification
 
-class BasicSessionlessPermitCheckingServiceIntegrationSpec extends IntegrationSpec {
+class BasicSessionlessPermitCheckingServiceIntegrationSpec extends Specification {
 
     def basicSessionlessPermitCheckingService
 

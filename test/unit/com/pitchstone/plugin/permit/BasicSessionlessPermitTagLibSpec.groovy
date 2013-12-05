@@ -8,6 +8,7 @@ import spock.lang.Specification
 class BasicSessionlessPermitTagLibSpec extends Specification {
 
 	def "context renders nothing by default"() {
+        setup: demandContext(null)
         expect:
             applyTemplate('<permit:context />') == ''
             applyTemplate('<permit:context property="foo" />') == ''

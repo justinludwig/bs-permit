@@ -1,6 +1,6 @@
 class BasicSessionlessPermitGrailsPlugin {
     // the plugin version
-    def version = "0.1"
+    def version = "0.1-SNAPSHOT"
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "2.0 > *"
     // the other plugins this plugin depends on
@@ -12,7 +12,6 @@ class BasicSessionlessPermitGrailsPlugin {
         'src/*/test/*.*',
     ]
 
-    // TODO Fill in these fields
     def title = "Basic Sessionless Permit Plugin" // Headline display name of the plugin
     def author = "Justin Ludwig"
     def authorEmail = "justin@pitchstonechnology.com"
