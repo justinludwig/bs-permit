@@ -22,8 +22,8 @@ public class LogSuppressingExceptionResolver extends GrailsExceptionResolver {
 
     protected void logStackTrace(Exception e, HttpServletRequest request) {
         // skip if exception is, or is subclass of, a suppressed class
-        for (def check = e; check != null; check = check.superClass)
-            if (check.class.name in suppress)
+        for (def check = e?.class; check != null; check = check.superclass)
+            if (check.name in suppress)
                 return
         super.logStackTrace e, request
     }
