@@ -1,4 +1,4 @@
-import com.pitchstone.plugin.permit.NotPermittedException
+import org.c02e.plugin.permit.NotPermittedException
 
 class UrlMappings {
 	static mappings = {

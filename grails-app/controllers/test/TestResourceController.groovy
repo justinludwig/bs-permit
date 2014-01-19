@@ -1,6 +1,6 @@
 package test
 
-import com.pitchstone.plugin.permit.Permit
+import org.c02e.plugin.permit.Permit
 
 @Permit('false')
 class TestResourceController {

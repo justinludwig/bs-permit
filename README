@@ -1,0 +1,25 @@
+Basic Sessionless Permit Plugin
+===============================
+
+This grails plugin provides a `@Permit` annotation that you can apply to your controller classes and action closures/methods, allowing access to those controllers/actions only when the `@Permit` annotations conditions are met.
+
+To use, you must register a custom service as the `basicSessionlessPermitContextService` bean for the the `org.c02e.plugin.permit.BasicSessionlessPermitCheckingService` that this plugin provides. The simplest way to do this is to just to implement a service named `BasicSessionlessPermitContextService` (although the permit-context service for the sample app is name `TestPermitContextService`, and is register as the `basicSessionlessPermitContextService` bean via `resources.groovy`).
+
+When you apply a `@Permit` annotation to your controllers/actions, specify an expression to evaluate in the context of your custom `basicSessionlessPermitContextService` bean. For example, this is the `@Permit` annotation on the `edit` action of the `TestResourceController` of the sample app:
+
+    @Permit('inResourceOrganization && inRole("admin", "editor")')
+
+It allows access to the `edit` action only when the test permit-context service (`TestPermitContextService`) returns true for its `isInResourceOrganization()` method, as well as true when its `inRole()` method is called with a list containing the `admin` and `editor` strings. For the sample app's silly little use case, this means only a user who has either an "admin" or "editor" role, and belongs to the same organization as the resource he/she is accessing belongs, may invoke the `edit` action (note that "user", "role", "organization", and "resource" all are application-dependent concepts, and need not exist or be implemented the same way in your own app).
+
+If a `@Permit` condition fails, the plugin's `org.c02e.plugin.permit.BasicSessionlessPermitFilters` raises an `org.c02e.plugin.permit.NotPermittedException` exception. You can control this filter's `dependsOn` property and its `filter` rule through config settings; see the sample app's `gails-app/config/Config.groovy` for an example.
+
+You may also want to register the plugin's `org.c02e.plugin.permit.LogSuppressingExceptionResolver` as your app's exception resolver to suppress stacktraces for the `NotPermittedException` in your logs, as well as to work-around GRAILS-10983 and friends (which results in errors with a "Method name must not be null" message when an exception is thrown in grails filters). See the sample app's `grails-app/config/spring/resources.groovy` for an example.
+
+This plugin also provides the following tags (through the `org.c02e.plugin.permit.BasicSessionlessPermitTagLib`):
+
+    * `<permit:context>`: prints an HTML-encoded property value of the permit-context service
+    * `<permit:withContext>`: adds the permit-context service as the `permit` var to the current GSP context
+    * `<permit:if>`: displays the tag body when the specified test expression evaluates to true for the permit-context service
+    * `<permit:elseif>`: displays the tag body when the specified test expression evaluates to true for the permit-context service, and the previous if/elseif tag evaluated to false
+    * `<permit:else>`: displays the tag body when the previous if/elseif tag evaluated to false
+

@@ -1,4 +1,4 @@
-import com.pitchstone.plugin.permit.LogSuppressingExceptionResolver
+import org.c02e.plugin.permit.LogSuppressingExceptionResolver
 
 beans = {
     springConfig.addAlias 'basicSessionlessPermitContextService', 'testPermitContextService'
