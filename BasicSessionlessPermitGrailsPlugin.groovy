@@ -12,6 +12,8 @@ class BasicSessionlessPermitGrailsPlugin {
         'src/*/test/*.*',
     ]
 
+    def observe = ['controllers']
+
     def title = "Basic Sessionless Permit Plugin" // Headline display name of the plugin
     def author = "Justin Ludwig"
     def authorEmail = "justin@codetechnology.org"
