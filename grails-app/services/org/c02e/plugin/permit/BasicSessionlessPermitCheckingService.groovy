@@ -73,7 +73,7 @@ class BasicSessionlessPermitCheckingService {
         def expr = actions[action] ?: actions.DEFAULT
         if (!expr) return
 
-        log.info "check '$expr' for $controller/$action"
+        log.debug "check '$expr' for $controller/$action"
         failUnless expr, context
     }
 
