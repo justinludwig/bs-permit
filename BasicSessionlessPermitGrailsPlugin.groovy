@@ -1,8 +1,8 @@
 class BasicSessionlessPermitGrailsPlugin {
     // the plugin version
-    def version = "0.1-SNAPSHOT"
+    def version = "0.1"
     // the version or versions of Grails the plugin is designed for
-    def grailsVersion = "2.0 > *"
+    def grailsVersion = "2.3 > *"
     // the other plugins this plugin depends on
     def dependsOn = [:]
     // resources that are excluded from plugin packaging
@@ -16,7 +16,7 @@ class BasicSessionlessPermitGrailsPlugin {
 
     def title = "Basic Sessionless Permit Plugin" // Headline display name of the plugin
     def author = "Justin Ludwig"
-    def authorEmail = "justin@codetechnology.org"
+    def authorEmail = "justin@codetechnology.com"
     def description = '''
 Provides @Permit annotation for checking permisssions.
 '''.trim()
@@ -32,7 +32,7 @@ Provides @Permit annotation for checking permisssions.
     // Details of company behind the plugin (if there is one)
     def organization = [
         name: "CODE Technology",
-        url: "http://codesurvey.org/",
+        url: "http://www.codetechnology.com/",
     ]
 
     // Any additional developers beyond the author specified above.
@@ -42,7 +42,7 @@ Provides @Permit annotation for checking permisssions.
 //    def issueManagement = [ system: "JIRA", url: "http://jira.grails.org/browse/GPMYPLUGIN" ]
 
     // Online location of the plugin's browseable source code.
-//    def scm = [ url: "http://svn.codehaus.org/grails-plugins/" ]
+    def scm = [ url: "https://github.com/justinludwig/bs-permit" ]
 
     def onChange = { event ->
         if (event.source && application.isControllerClass(event.source))
