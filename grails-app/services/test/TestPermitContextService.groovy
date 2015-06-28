@@ -64,7 +64,8 @@ class TestPermitContextService {
      * True if request is from localhost.
      */
     boolean isLocalhost() {
-        RCH?.requestAttributes?.request?.remoteAddr == '127.0.0.1'
+        def addr = RCH?.requestAttributes?.request?.remoteAddr
+        addr in ['127.0.0.1', '0:0:0:0:0:0:0:1']
     }
 
     /**
