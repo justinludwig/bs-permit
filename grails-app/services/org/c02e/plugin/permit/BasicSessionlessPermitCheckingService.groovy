@@ -18,10 +18,11 @@ class BasicSessionlessPermitCheckingService {
      * Returns true if the specified expression evaluates to true
      * for the specified context.
      * @param expression Expression to evaluate.
-     * @param context (optional) Expression context; defaults to
+     * @param context (optional) Expression context; defaults to null
+     * @param fail (optional) Re-throw any caught error; defaults to true
      * basicSessionlessPermitContextService bean reference.
      */
-    boolean check(String expression, context = null) {
+    boolean check(String expression, context = null, fail=true) {
         if (!expression) return true
         context = context ?: basicSessionlessPermitContextService
 
@@ -29,9 +30,11 @@ class BasicSessionlessPermitCheckingService {
             Eval.x context, "x.with { $expression }"
         } catch (e) {
             log.error "failed to evaluate expression: $expression", e
-            throw e
+            if (fail) throw e
+            return false
         }
     }
+
 
     /**
      * Throws an exception unless the specified expression evaluates to true
@@ -64,19 +67,29 @@ class BasicSessionlessPermitCheckingService {
      * @throws NotPermittedException unless expression evaluates to true.
      */
     void failUnlessActionPermitted(String controller, String action = null, context = null) {
-        if (controllers == null)
-            controllers = buildControllerMap()
-
-        def actions = controllers[controller]
-        if (!actions) return
-
-        def expr = actions[action] ?: actions.DEFAULT
+        def expr = getExpression(controller, action) 
         if (!expr) return
 
         log.debug "check '$expr' for $controller/$action"
         failUnless expr, context
     }
 
+    /**
+     * Returns the expression specified by the @Permit annotation for the
+     * specified controller and (optional) action
+     * @param controller Controller name.
+     * @param action Action name (or null for default action).
+     */
+    String getExpression(String controller, String action) {
+        if (controllers == null)
+            controllers = buildControllerMap()
+
+        def actions = controllers[controller]
+        if (!actions) return null
+        
+        return actions[action] ?: actions.DEFAULT
+    }
+    
     /**
      * Not thread-safe; intended for dev-mode only.
      */
