@@ -67,7 +67,7 @@ class BasicSessionlessPermitCheckingService {
      * @throws NotPermittedException unless expression evaluates to true.
      */
     void failUnlessActionPermitted(String controller, String action = null, context = null) {
-        def expr = getExpression(controller, action) 
+        def expr = getExpression(controller, action)
         if (!expr) return
 
         log.debug "check '$expr' for $controller/$action"
@@ -86,10 +86,10 @@ class BasicSessionlessPermitCheckingService {
 
         def actions = controllers[controller]
         if (!actions) return null
-        
+
         return actions[action] ?: actions.DEFAULT
     }
-    
+
     /**
      * Not thread-safe; intended for dev-mode only.
      */
